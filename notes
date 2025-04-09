@@ -1,0 +1,79 @@
+Step Wise Guide for this application DevSecOps Pipeline (k8s,aws,jenkins,prometheus,grafana,argocd,sonarQube,trivy,) :-
+
+1. Write all the tf files, K8s manifests, Docker file and docker-compose files as per required
+
+2. Now For creating Master machine (EC2) in AWS create an IAM user give Administration Permission and Create Access Key 
+
+3. Now configure aws in terminal by "aws configure " enter that access key and its secret key , region and anything asked
+
+4. Now navigate to terraform folder and do "ssh-keygen" with some name (terraform-key) which generates the terraform-key.pub file in same directory 
+
+5. Now where ever u generated file using ssh-keygen copy that path in ec2.tf files public_key = file("value") 
+
+6. Then in variable.tf file write ur right region and ami id according to your machine and all (AMI id depends on region , Ubuntu Version etc) 
+
+7. Now to make an instance enter these commands : terraform init , terraform plan and then terraform apply 
+
+8. Now u can see in the aws ec2 part there is machine created and u can ssh inside it using the command provided there in connect and make sure to have the key same as u generated doing ssh-keygen (ssh inside machine from that same directory where that key is located also see chmod is correct or not )
+
+9. Now in master machine open required ports which as we gonna run multiple thing on this machine [465,6379,30000-32767,6443,80,25,3000 - 10000,22,443] u can do this mannualy from UI of aws or else add those ports in ec2.tf as ingress 
+
+10. Now in ssh machine (Master machine ) lets set up all required services like docker (https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04), jenkins ( sudo apt install openjdk-17-jre-headless -y
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins)
+
+
+11. Create EKS Cluster on AWS (Master machine)
+IAM user with access keys and secret access keys
+
+AWSCLI should be configured (Setup AWSCLI)
+command :- 
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo apt install unzip
+unzip awscliv2.zip
+sudo ./aws/install
+aws configure
+
+Install kubectl (Master machine)(Setup kubectl )
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin
+kubectl version --short --client
+
+Install eksctl (Master machine) (Setup eksctl)
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version
+
+12. Create EKS Cluster (Master machine)
+eksctl create cluster --name=yourClusterName \
+                    --region=urRegionname \
+                    --version=1.30 \
+                    --without-nodegroup
+
+
+Associate IAM OIDC Provider (Master machine)
+
+eksctl utils associate-iam-oidc-provider \
+  --region us-east-2 \
+  --cluster wanderlust \
+  --approve
+
+
+Create Nodegroup (Master machine)
+
+eksctl create nodegroup --cluster=yourClusterName \
+                     --region=urRegionName \
+                     --name=anyname \
+                     --node-type=t2.large \
+                     --nodes=2 \
+                     --nodes-min=2 \
+                     --nodes-max=2 \
+                     --node-volume-size=29 \
+                     --ssh-access \
+                     --ssh-public-key=eks-nodegroup-key 
