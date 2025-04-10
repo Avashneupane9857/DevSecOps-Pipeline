@@ -1,3 +1,4 @@
+//yesma mailey shared library use gareko diff repo mah sabai function haru define gareko cha so We follow DRY principle
 @Library('Shared') _
 pipeline {
     agent {label 'Node'}
@@ -24,7 +25,7 @@ pipeline {
         stage("Workspace cleanup"){
             steps{
                 script{
-                    cleanWs()
+                    cleanWs() // Yo chai is an function of jenkins juust to cleanup the workspace halka space save garna ko lagi 
                 }
             }
         }
@@ -32,7 +33,7 @@ pipeline {
         stage('Git: Code Checkout') {
             steps {
                 script{
-                    code_checkout("https://github.com/Avashneupane9857/DevSecOps-Pipeline/","main")
+                    code_checkout("https://github.com/Avashneupane9857/DevSecOps-Pipeline/","master")
                 }
             }
         }
@@ -56,7 +57,7 @@ pipeline {
         stage("SonarQube: Code Analysis"){
             steps{
                 script{
-                    sonarqube_analysis("Sonar","wanderlust","wanderlust")
+                    sonarqube_analysis("Sonar","DevSecOps","DevSecOps")
                 }
             }
         }
@@ -97,11 +98,11 @@ pipeline {
             steps{
                 script{
                         dir('backend'){
-                            docker_build("wanderlust-backend-beta","${params.BACKEND_DOCKER_TAG}","DevSecOpsPipeline")
+                            docker_build("DevSecOps-backend-beta","${params.BACKEND_DOCKER_TAG}","DevSecOpsPipeline")
                         }
                     
                         dir('frontend'){
-                            docker_build("wanderlust-frontend-beta","${params.FRONTEND_DOCKER_TAG}","DevSecOpsPipeline")
+                            docker_build("DevSecOps-frontend-beta","${params.FRONTEND_DOCKER_TAG}","DevSecOpsPipeline")
                         }
                 }
             }
@@ -110,8 +111,8 @@ pipeline {
         stage("Docker: Push to DockerHub"){
             steps{
                 script{
-                    docker_push("wanderlust-backend-beta","${params.BACKEND_DOCKER_TAG}","DevSecOpsPipeline") 
-                    docker_push("wanderlust-frontend-beta","${params.FRONTEND_DOCKER_TAG}","DevSecOpsPipeline")
+                    docker_push("wanderlust-backend-beta","${params.BACKEND_DOCKER_TAG}","avash9857") 
+                    docker_push("wanderlust-frontend-beta","${params.FRONTEND_DOCKER_TAG}","avash9857")
                 }
             }
         }
@@ -119,7 +120,7 @@ pipeline {
     post{
         success{
             archiveArtifacts artifacts: '*.xml', followSymlinks: false
-            build job: "Wanderlust-CD", parameters: [
+            build job: "DevSecOps-CD", parameters: [
                 string(name: 'FRONTEND_DOCKER_TAG', value: "${params.FRONTEND_DOCKER_TAG}"),
                 string(name: 'BACKEND_DOCKER_TAG', value: "${params.BACKEND_DOCKER_TAG}")
             ]
