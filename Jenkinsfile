@@ -1,7 +1,8 @@
 //yesma mailey shared library use gareko diff repo mah sabai function haru define gareko cha so We follow DRY principle
+// this is just CI and if this happens without error then only CD happens
 @Library('Shared') _
 pipeline {
-    agent {label 'Node'}
+    agent any
     
     environment{
         SONAR_HOME = tool "Sonar"
@@ -98,11 +99,11 @@ pipeline {
             steps{
                 script{
                         dir('backend'){
-                            docker_build("DevSecOps-backend-beta","${params.BACKEND_DOCKER_TAG}","DevSecOpsPipeline")
+                            docker_build("DevSecOps-backend-beta","${params.BACKEND_DOCKER_TAG}","avash9857")
                         }
                     
                         dir('frontend'){
-                            docker_build("DevSecOps-frontend-beta","${params.FRONTEND_DOCKER_TAG}","DevSecOpsPipeline")
+                            docker_build("DevSecOps-frontend-beta","${params.FRONTEND_DOCKER_TAG}","avash9857")
                         }
                 }
             }
@@ -120,7 +121,7 @@ pipeline {
     post{
         success{
             archiveArtifacts artifacts: '*.xml', followSymlinks: false
-            build job: "DevSecOps-CD", parameters: [
+            build job: "DevSecOps-Pipeline-CD", parameters: [
                 string(name: 'FRONTEND_DOCKER_TAG', value: "${params.FRONTEND_DOCKER_TAG}"),
                 string(name: 'BACKEND_DOCKER_TAG', value: "${params.BACKEND_DOCKER_TAG}")
             ]
