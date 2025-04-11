@@ -203,3 +203,13 @@ If Jenkins is running as a system user (like jenkins), add it to the Docker grou
 sudo usermod -aG docker jenkins
 Then restart Jenkins:
 sudo systemctl restart jenkins
+
+
+NOte: About the top line in jenkins file Library ('Shared') and how it works
+ Shared Library Setup: The @Library annotation references a shared library that is set up in Jenkins. You can define shared libraries in Jenkins' global configuration under Manage Jenkins > Configure System > Global Pipeline Libraries.
+
+Library Name: 'Shared' is the name of the library you're using. Jenkins will look for this shared library based on the configurations defined in Jenkins.
+
+Library Content: The shared library contains reusable pipeline components (like functions, custom steps, or common variables) that you can call in your pipeline scripts. For example, the code_checkout function might be defined inside the Shared library, allowing you to reuse it across different pipeline scripts without repeating code.
+
+Loading the Library: By placing @Library('Shared') _ at the top, you instruct Jenkins to load this shared library before the pipeline execution. Any functions or steps defined in the library become available for use in the pipeline.
