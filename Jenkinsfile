@@ -94,7 +94,15 @@ pipeline {
                 }
             }
         }
-        
+
+       stage('Docker Check') {
+  steps {
+    sh 'whoami'
+    sh 'docker version'
+    sh 'docker info'
+  }
+}
+ 
         stage("Docker: Build Images"){
             steps{
                 script{
