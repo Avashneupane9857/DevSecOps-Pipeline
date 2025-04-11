@@ -52,7 +52,18 @@ pipeline {
                 }
             }
         }
-        
+        stage("Verify: Manifest Update") {
+    steps {
+        script {
+            echo "Showing updated Kubernetes manifests:"
+            sh "echo '===== backend.yaml ====='"
+            sh "cat kubernetes/backend.yaml"
+            sh "echo '===== frontend.yaml ====='"
+            sh "cat kubernetes/frontend.yaml"
+        }
+    }
+}
+
         stage("Git: Code update and push to GitHub"){
             steps{
                 script{
