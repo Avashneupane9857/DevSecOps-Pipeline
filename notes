@@ -213,3 +213,10 @@ Library Name: 'Shared' is the name of the library you're using. Jenkins will loo
 Library Content: The shared library contains reusable pipeline components (like functions, custom steps, or common variables) that you can call in your pipeline scripts. For example, the code_checkout function might be defined inside the Shared library, allowing you to reuse it across different pipeline scripts without repeating code.
 
 Loading the Library: By placing @Library('Shared') _ at the top, you instruct Jenkins to load this shared library before the pipeline execution. Any functions or steps defined in the library become available for use in the pipeline.
+
+
+
+Hence now u can check ur site is deployed and can go to sonarQube server too as we had setup it with sonarQube Scanner hence our code vulnerabilities are shown over there .
+and u may have got email regarding ur build and deployment status 
+
+Thanks for following this notes .... 
