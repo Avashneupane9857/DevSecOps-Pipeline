@@ -191,3 +191,9 @@ Now u can check frontend and backend must be running in repesctive url and ports
   new code is commited and docekr image version is changed then it will automatically run CD pipeline too 
   and changes manifests file and argocd picks up the changes in manifest file and deploys the new image 
   hence it all about chnage in manifest file pushed in github (Github working as single source of turth:-GitOps)   
+
+
+
+15. Now u can build CI pipeline and u will see error as u shall build it with parameters (Docker image tags)
+
+Note: It will take approx 20 min of time as OWSAP have to bring on many file for dependency check (Only for once btw)
