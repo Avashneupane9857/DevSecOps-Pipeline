@@ -217,6 +217,6 @@ Loading the Library: By placing @Library('Shared') _ at the top, you instruct Je
 
 
 Hence now u can check ur site is deployed and can go to sonarQube server too as we had setup it with sonarQube Scanner hence our code vulnerabilities are shown over there .
-and u may have got email regarding ur build and deployment status 
+and u may have got email regarding DevSecOps Application has been updated and deployed - 'SUCCESS'
 
-Thanks for following this notes .... 
+Thanks for going through this notes .... 
