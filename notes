@@ -77,3 +77,5 @@ eksctl create nodegroup --cluster=yourClusterName \
                      --node-volume-size=29 \
                      --ssh-access \
                      --ssh-public-key=eks-nodegroup-key 
+
+12. Jenkins :-
