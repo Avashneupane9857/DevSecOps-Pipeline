@@ -77,5 +77,83 @@ eksctl create nodegroup --cluster=yourClusterName \
                      --node-volume-size=29 \
                      --ssh-access \
                      --ssh-public-key=eks-nodegroup-key 
+                     note: We should make eks-nodegroup-key named keypair in that same region it is used to ssh inside the node and play aroun with node 
 
-12. Jenkins :-
+12. In Jenkins install  :-
+ i. Trivy :- sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt-get update -y
+sudo apt-get install trivy -y
+ 
+ ii. SonarQube using docker : docker run -itd --name SonarQube-Server -p 9000:9000 sonarqube:lts-community
+
+ iii. To setup Gmail : - Generate app password from manage google account from gmail add those creds in jenkins credintails section -> Go to  Manage tools section and search for Extented Email notification in that section select our creds of email and save it 
+
+ iv.  OWSAP: To set up this u need plugin of OWSAP in jenkins at first along side also install Docker, Pipeline-stage view , SonarQube Scanner 
+ 
+v. Go to manage jenkins -> Tools and configure all installed tools Dependency-Check
+
+something like this :-
+Name
+OWSAP
+
+Install automatically
+?
+Install from github.com
+Version
+
+dependency-check 12.1.1
+Add Installer
+
+
+vi. Connect sonarQube and jenkins :- In sonarQube UI go to Administration then User their generate token create creds in credintal section with secret text option 
+Now To integrate sonarQube go to manage jenkins -> System -> There find sonarQube installatioj and add name , Server Url and creds which u added earlier 
+
+vii. Create Webhook for sonarQube and jenkins communication :- SonarQube -> Adminstration-> Configuration->Webhook (Without secret)
+
+13. ArgoCd Setup :-
+ Install and Configure ArgoCD (Master Machine) :-
+
+Create argocd namespace
+kubectl create namespace argocd
+
+Apply argocd manifest
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+Make sure all pods are running in argocd namespace
+watch kubectl get pods -n argocd
+
+Install argocd CLI
+sudo curl --silent --location -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.4.7/argocd-linux-amd64
+
+Provide executable permission
+sudo chmod +x /usr/local/bin/argocd
+
+Check argocd services
+kubectl get svc -n argocd
+
+Change argocd server's service from ClusterIP to NodePort
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+
+Confirm service is patched or not
+kubectl get svc -n argocd
+
+Fetch the initial password of argocd server
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+Username: admin
+Now, go to User Info and update your argocd password
+
+Now with any created Ec2 machine or node IP address u can access at first please Add inbound rules in which ever port argocd-server NodePort is running 
+
+
+Now login in argocd and go to setting Add repo and connect with it 
+
+
+
+
+
+
+
+ Note if jenkins is slow it about heap memory problem with java please fix it 
+
