@@ -149,11 +149,17 @@ Now with any created Ec2 machine or node IP address u can access at first please
 
 Now login in argocd and go to setting Add repo and connect with it 
 
-
-
-
-
-
-
  Note if jenkins is slow it about heap memory problem with java please fix it 
+
+
+
+All about DRY now :-
+
+We are not supposed to repeat our code but incase of jenkins pipeline most of the time we have to write
+same code again and again hence now we gonna create a common repo an SharedLibrary for Jenkins consisting 
+various tasks as function hence add that repo in Jenkins -> Mangage Jenkins -> System -> search for Trusted pipeline and add that repo consiting Function of several Jenkins tasks 
+
+And how do our pipeline reconginze that repo function to use in Our original pipeline we can add this line at the Top of Pipeline 
+:- @Library('Shared') _
+Here 'Shared' is the name i added while adding trusted Pipline repo 
 
