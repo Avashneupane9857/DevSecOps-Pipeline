@@ -166,3 +166,28 @@ Here 'Shared' is the name i added while adding trusted Pipline repo
 
 Also setup docker hub creds 
 
+
+14. Now we add pipeline for CD the gitops practice way (Directory= GitOps-> Jenkinsfile)
+
+Here we just update manifests file and argocd picksup from there and delpoys it in cluster 
+
+15. Now to setup argocd we shall login from our machine " argocd login url_of_argocd_running --username admin"
+and it will ask password enter it then u can have access as admin 
+
+16. Now to add our cluster in argocd :-
+    
+   i. Get ur cluster name :- "kubectl config get-contexts "
+
+   ii. Add ur cluster in argocd :- "argocd cluster add DevSecOps-Pipeline@DevSecOps-Pipeline.ap-southeast-2.eksctl.io --name Dev
+    SecOps-Pipeline"
+   iii. To see clusters in argocd :- "argocd cluster list"
+   iv. Now add ur repo and all in argocd by clicking in Create App 
+
+   Note : Go to backend frontend, services and see in which port they are running and add those port in security group of worker node if u add in one it shall be added in all worker node as they share same security group 
+   While adding the app in argocd remember namespace in kubernetes manifests and there should be same 
+
+Now u can check frontend and backend must be running in repesctive url and ports and from now only if manifest
+ file is changed directly from Developer and pushed the chnages then again argocd picksup the changes else if
+  new code is commited and docekr image version is changed then it will automatically run CD pipeline too 
+  and changes manifests file and argocd picks up the changes in manifest file and deploys the new image 
+  hence it all about chnage in manifest file pushed in github (Github working as single source of turth:-GitOps)   
