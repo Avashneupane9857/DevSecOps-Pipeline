@@ -107,11 +107,11 @@ pipeline {
             steps{
                 script{
                         dir('backend'){
-                            docker_build("DevSecOps-backend-beta","${params.BACKEND_DOCKER_TAG}","avash9857")
+                            docker_build("dev-sec-ops-backend-beta","${params.BACKEND_DOCKER_TAG}","avash9857")
                         }
                     
                         dir('frontend'){
-                            docker_build("DevSecOps-frontend-beta","${params.FRONTEND_DOCKER_TAG}","avash9857")
+                            docker_build("dev-sec-ops-frontend-beta","${params.FRONTEND_DOCKER_TAG}","avash9857")
                         }
                 }
             }
@@ -120,8 +120,8 @@ pipeline {
         stage("Docker: Push to DockerHub"){
             steps{
                 script{
-                    docker_push("DevSecOps-backend-beta","${params.BACKEND_DOCKER_TAG}","avash9857") 
-                    docker_push("DevSecOps-frontend-beta","${params.FRONTEND_DOCKER_TAG}","avash9857")
+                    docker_push("dev-sec-ops-backend-beta","${params.BACKEND_DOCKER_TAG}","avash9857") 
+                    docker_push("dev-sec-ops-frontend-beta","${params.FRONTEND_DOCKER_TAG}","avash9857")
                 }
             }
         }
