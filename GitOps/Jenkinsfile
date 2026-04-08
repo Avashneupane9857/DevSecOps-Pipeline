@@ -37,17 +37,17 @@ pipeline {
         stage("Update: Kubernetes manifests"){
             steps{
                 script{
-                    dir('kubernetes'){
-                        sh """
-                            sed -i -e s/dev-sec-ops-backend-beta.*/dev-sec-ops-backend-beta:${params.BACKEND_DOCKER_TAG}/g backend.yaml
-                        """
-                    }
-                    
-                    dir('kubernetes'){
-                        sh """
-                            sed -i -e s/dev-sec-ops-frontend-beta.*/dev-sec-ops-frontend-beta:${params.FRONTEND_DOCKER_TAG}/g frontend.yaml
-                        """
-                    }
+                   dir('kubernetes'){
+    sh """
+        sed -i -e s#avash9857/DevSecOps-backend-beta:[^\\"]*#avash9857/DevSecOps-backend-beta:${params.BACKEND_DOCKER_TAG}#g backend.yaml
+    """
+}
+
+dir('kubernetes'){
+    sh """
+        sed -i -e s#avash9857/DevSecOps-frontend-beta:[^\\"]*#avash9857/DevSecOps-frontend-beta:${params.FRONTEND_DOCKER_TAG}#g frontend.yaml
+    """
+} 
                     
                 }
             }
