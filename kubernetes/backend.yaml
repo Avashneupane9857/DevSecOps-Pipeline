@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: avash9857/DevSecOps-backend-beta:v13
+          image: avash9857/dev-sec-ops-backend-beta:v13
           ports:
             - containerPort: 8080
 ---
