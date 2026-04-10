@@ -79,6 +79,7 @@ eksctl create nodegroup --cluster=yourClusterName \
                      --ssh-public-key=eks-nodegroup-key 
                      note: We should make eks-nodegroup-key named keypair in that same region it is used to ssh inside the node and play aroun with node 
 
+
 12. In Jenkins install  :-
  i. Trivy :- sudo apt-get install wget apt-transport-https gnupg lsb-release -y
 wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
