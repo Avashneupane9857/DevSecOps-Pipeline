@@ -278,4 +278,3 @@ flowchart LR
 
 ---
 
-*Generated as project documentation for teaching and demonstration. Adjust any public URLs, instance IDs, or registry names if your deployment differs from the committed examples.*
